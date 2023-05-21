@@ -8,6 +8,7 @@ import Layout from "../components/Layout";
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 
+
 const projectId = "celo-composer-project-id" // get one at https://cloud.walletconnect.com/app
 
 const { chains, publicClient } = configureChains(
