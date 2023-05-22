@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { lightTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import celoGroups from "@celo/rainbowkit-celo/lists";
@@ -24,16 +24,27 @@ const wagmiConfig = createConfig({
   publicClient: publicClient,
 });
 
+
 function App({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains} coolMode={true}>
+      <RainbowKitProvider
+        chains={chains}
+        coolMode={true}
+        theme={lightTheme({
+          accentColor: "#4c1d95",
+          accentColorForeground: "white",
+          borderRadius: "medium",
+          fontStack: "system",
+          overlayBlur: "small",
+        })}
+      >
         <Layout>
           <Component {...pageProps} />
         </Layout>
       </RainbowKitProvider>
     </WagmiConfig>
-  )
+  );
 }
 
 export default App;

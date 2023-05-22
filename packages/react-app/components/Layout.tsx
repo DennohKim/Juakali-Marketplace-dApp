@@ -10,26 +10,30 @@ const fontSans = FontSans({
 });
 
 interface Props {
-    children: ReactNode
+  children: ReactNode;
 }
-const Layout: FC<Props> = ({children}) => {
-    return (
-      <>
-        <div
-          className={cn(
-            "min-h-screen bg-background font-sans antialiased overflow-hidden flex flex-col",
-            fontSans.variable
-          )}
-        >
-          <Header />
-          <div className="py-10 max-w-7xl mx-auto space-y-8 sm:px-6 lg:px-8">
-            <AddProductModal />
+const Layout: FC<Props> = ({ children }) => {
+  return (
+    <>
+      <style jsx global>
+        {`
+          :root {
+            --font-sans: ${fontSans.variable};
+          }
+        `}
+      </style>
+      <div
+        className={`min-h-screen bg-background font-sans antialiased overflow-hidden flex flex-col ${fontSans.variable}`}
+      >
+        <Header />
+        <div className="py-10 max-w-7xl mx-auto space-y-8 sm:px-6 lg:px-8">
+          <AddProductModal />
 
-            {children}
-          </div>
+          {children}
         </div>
-      </>
-    );
-}
+      </div>
+    </>
+  );
+};
 
 export default Layout;

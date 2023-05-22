@@ -49,8 +49,11 @@ export function ProductForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div className="flex justify-between">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 font-sans"
+      >
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2  ">
           <FormField
             control={form.control}
             name="productName"
@@ -78,7 +81,7 @@ export function ProductForm() {
             )}
           />
         </div>
-        <div className="flex justify-between">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2  ">
           <FormField
             control={form.control}
             name="category"
@@ -101,7 +104,9 @@ export function ProductForm() {
                     </SelectItem>
                     <SelectItem value="bakery">Bakery Equipment</SelectItem>
                     <SelectItem value="butchery">Butchery Equipment</SelectItem>
-                    <SelectItem value="stainless">Stainless Steel Equipment</SelectItem>
+                    <SelectItem value="stainless">
+                      Stainless Steel Equipment
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -132,16 +137,20 @@ export function ProductForm() {
                 <FormControl>
                   <Input placeholder="0" {...field} />
                 </FormControl>
-                <FormDescription>
-                    Price in cUSD
-                </FormDescription>
+                <FormDescription>Price in cUSD</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
-
-        <Button type="submit">Submit</Button>
+        <div className="w-full flex justify-end">
+          <Button
+            type="submit"
+            className="flex bg-button text-white"
+          >
+            List product
+          </Button>
+        </div>
       </form>
     </Form>
   );

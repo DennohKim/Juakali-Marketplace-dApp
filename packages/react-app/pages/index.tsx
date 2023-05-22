@@ -117,7 +117,7 @@ export default function Home() {
               <div className="mt-6">
                 <a
                   href={product.href}
-                  className="relative flex items-center justify-center rounded-md border border-transparent bg-foreground py-2 px-8 text-sm font-medium text-white hover:bg-foreground/70"
+                  className="relative flex items-center justify-center rounded-md border border-transparent bg-button py-2 px-8 text-sm font-medium text-white hover:bg-foreground/70"
                 >
                   Add to cart<span className="sr-only">, {product.name}</span>
                 </a>

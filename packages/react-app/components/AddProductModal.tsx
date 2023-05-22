@@ -16,9 +16,9 @@ import { XCircleIcon } from '@heroicons/react/24/outline';
 
 export default function AddProductModal() {
   return (
-    <div>
+    <div className='font-sans'>
       <AlertDialog>
-        <AlertDialogTrigger className="border border-gray-300 px-4 py-2 bg-foreground rounded-md  text-white">
+        <AlertDialogTrigger className="px-4 py-2 border border-button rounded-md  text-button hover:bg-button hover:text-white">
           List product
         </AlertDialogTrigger>
 
