@@ -27,7 +27,7 @@ export default function Header() {
   }, [cusdBalance, isConnected]);
 
   return (
-    <Disclosure as="nav" className="bg-prosperity border-b border-black/20">
+    <Disclosure as="nav" className="bg-primary/10">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -56,7 +56,7 @@ export default function Header() {
                 <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                   <a
                     href="#"
-                    className="inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium text-violet-900"
+                    className="inline-flex items-center px-1 pt-1 text-sm font-medium text-violet-900"
                   >
                     Home
                   </a>
