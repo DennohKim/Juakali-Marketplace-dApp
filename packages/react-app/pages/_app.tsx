@@ -7,23 +7,30 @@ import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
+import { ShoppingCartProvider } from "@/context/ShoppingCartContext";
 
-
-const projectId = "celo-composer-project-id" // get one at https://cloud.walletconnect.com/app
+const projectId = "celo-composer-project-id"; // get one at https://cloud.walletconnect.com/app
 
 const { chains, publicClient } = configureChains(
   [Alfajores, Celo],
-  [jsonRpcProvider({ rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }) })]
+  [
+    jsonRpcProvider({
+      rpc: (chain) => ({ http: chain.rpcUrls.default.http[0] }),
+    }),
+  ]
 );
-  
-const connectors = celoGroups({chains, projectId, appName: typeof document === "object" && document.title || "Your App Name"})
+
+const connectors = celoGroups({
+  chains,
+  projectId,
+  appName: (typeof document === "object" && document.title) || "Your App Name",
+});
 
 const wagmiConfig = createConfig({
   autoConnect: true,
   connectors,
   publicClient: publicClient,
 });
-
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -39,9 +46,11 @@ function App({ Component, pageProps }: AppProps) {
           overlayBlur: "small",
         })}
       >
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <ShoppingCartProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ShoppingCartProvider>
       </RainbowKitProvider>
     </WagmiConfig>
   );

@@ -96,7 +96,7 @@ export default function Header() {
                 <div className="">
                   {displayBalance && (
                     <span
-                      className="inline-block text-dark px-5 py-2.5 font-medium text-md leading-tight rounded-2xl shadow-none "
+                      className="inline-block text-dark px-5 py-2.5 font-medium text-normal leading-tight rounded-2xl shadow-none "
                       data-bs-toggle="modal"
                       data-bs-target="#exampleModalCenter"
                     >
