@@ -1,13 +1,15 @@
+import FilterByCategory from "@/components/FilterByCategory";
 import ProductCard from "@/components/ProductCard";
+import Search from "@/components/Search";
 
 export type ProductType = {
-  id: number
-  name: string
-  category: string
-  href: string
-  imageSrc: string
-  imageAlt: string
-  price: string
+  id: number;
+  name: string;
+  category: string;
+  href: string;
+  imageSrc: string;
+  imageAlt: string;
+  price: string;
 };
 
 const products: ProductType[] = [
@@ -95,13 +97,17 @@ export default function Home() {
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl py-4 px-2 sm:py-6 sm:px-6 lg:max-w-7xl lg:px-2">
-        <h2 className="text-xl font-bold text-gray-900">
-          Juakali Products
-        </h2>
+        <div className="flex justify-between items-start mb-10">
+          <h2 className="text-xl font-bold text-gray-900">Juakali Products</h2>
+          <div className="flex space-x-4 items-center">
+            <Search />
+            <FilterByCategory />
+          </div>
+        </div>
 
         <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
           {products.map((product) => (
-            <ProductCard key={product.id} product={product}/>
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       </div>

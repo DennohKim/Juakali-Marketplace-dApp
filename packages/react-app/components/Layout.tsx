@@ -28,7 +28,7 @@ const Layout: FC<Props> = ({ children }) => {
       >
         <Header />
         <div className="py-10 max-w-7xl mx-auto space-y-8 sm:px-6 lg:px-8">
-          <div className="flex justify-between">
+          <div className="flex justify-between px-2 sm:px-0">
             <AddProductModal />
             <CheckoutModal/>
           </div>
