@@ -10,7 +10,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { ProductForm } from './ProductForm';
+import  ProductForm  from './ProductForm';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 
 

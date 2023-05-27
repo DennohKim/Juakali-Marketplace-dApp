@@ -8,6 +8,7 @@ import Layout from "../components/Layout";
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
 import { ShoppingCartProvider } from "@/context/ShoppingCartContext";
+import { Toaster } from "react-hot-toast";
 
 const projectId = "celo-composer-project-id"; // get one at https://cloud.walletconnect.com/app
 
@@ -47,6 +48,8 @@ function App({ Component, pageProps }: AppProps) {
         })}
       >
         <ShoppingCartProvider>
+          <Toaster position="top-center" />
+
           <Layout>
             <Component {...pageProps} />
           </Layout>
