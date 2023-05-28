@@ -15,6 +15,7 @@ import { useDebounce } from "use-debounce";
 import { useContractSend } from "@/hooks/useContractWrite";
 import { Input } from "./ui/input";
 import { CustomWindow } from "@/typings";
+import { useRouter } from "next/navigation";
 
 
 // The AddProductModal component is used to add a product to the marketplace
@@ -32,6 +33,8 @@ const ProductForm = () => {
   const [debouncedPrice] = useDebounce(price, 500);
   // The loading state is used to display a loading message
   const [loading, setLoading] = useState("");
+
+  const router = useRouter()
 
   // Check if all the input fields are filled
   const isComplete = productTitle && imageUrl && category && location && price;
@@ -76,6 +79,7 @@ const handleCreateProduct = async () => {
 
     setLoading("Waiting for confirmation...");
 
+
     // Wait for the transaction to be mined and confirmed on the blockchain
     const provider = new ethers.providers.Web3Provider(
       (window as CustomWindow).ethereum
@@ -86,9 +90,7 @@ const handleCreateProduct = async () => {
 
     // Clear the input fields after the product is added to the marketplace
     clearForm();
-
-    // Display a success notification or perform any other necessary actions
-    toast.success("Product created successfully");
+    router.refresh()
   } catch (error) {
     // Display an error notification or handle the error in an appropriate way
     console.error(error);

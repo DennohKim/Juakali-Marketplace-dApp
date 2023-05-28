@@ -1,5 +1,6 @@
 import FilterByCategory from "@/components/FilterByCategory";
 import ProductCard from "@/components/ProductCard";
+import ProductList from "@/components/ProductList";
 import Search from "@/components/Search";
 
 export type ProductType = {
@@ -105,11 +106,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        <ProductList/>
       </div>
     </div>
   );
