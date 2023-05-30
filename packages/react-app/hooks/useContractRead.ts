@@ -24,7 +24,7 @@ export const useContractCall = (
     // A boolean to watch for changes in the smart contract. If true, the hook will re-run when the smart contract changes
     watch,
     // The address of the user to call the smart contract function from which is optional
-    overrides: from ? { from } : undefined,
+    //overrides: from ? { from } : undefined,
     onError: (err) => {
       console.log({ err });
     },

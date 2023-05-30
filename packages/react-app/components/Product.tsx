@@ -2,7 +2,7 @@
 // This component displays and enables the purchase of a product
 
 // Importing the dependencies
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import Link from "next/link";
 // Import ethers to format the price of the product correctly
 import { ethers } from "ethers";
@@ -15,12 +15,12 @@ import { toast } from "react-toastify";
 // Import our custom identicon template to display the owner of the product
 import { useContractCall } from "@/hooks/useContractRead";
 import { useContractSend } from "@/hooks/useContractWrite";
-import { useShoppingCart } from "@/context/ShoppingCartContext";
+import { ShoppingCartContext } from "@/context/ShoppingCartContext";
 // import { useContractApprove } from "@/hooks/contracts/useApprove";
 // Import our custom hooks to interact with the smart contract
 
 // Define the interface for the product, an interface is a type that describes the properties of an object
-interface Product {
+interface iProduct {
   product_title: string;
   image_url: string;
   category: string;
@@ -32,22 +32,18 @@ interface Product {
 
 // Define the Product component which takes in the id of the product and some functions to display notifications
 const Product = ({ id, setError, setLoading, clear }: any) => {
-  //  const {
-  //    getItemQuantity,
-  //    increaseCartQuantity,
-  //    decreaseCartQuantity,
-  //    removeFromCart,
-  //  } = useShoppingCart();
-
-  //  const quantity = getItemQuantity(id);
+  const { dispatch } =  useContext(ShoppingCartContext as any)
+ 
   // Use the useAccount hook to store the user's address
   //   const { address } = useAccount();
   // Use the useContractCall hook to read the data of the product with the id passed in, from the marketplace contract
   const { data: rawProduct }: any = useContractCall("readProduct", [id], true);
-  console.log(rawProduct)
+  
   // Use the useContractSend hook to purchase the product with the id passed in, via the marketplace contract
   //   const { writeAsync: purchase } = useContractSend("buyProduct", [Number(id)]);
-  const [product, setProduct] = useState<Product | null>(null);
+  const [product, setProduct] = useState<iProduct | null>(null);
+  // const [ products, setProducts ] = useState<iProduct[] | null | undefined>([]);
+
   // Use the useContractApprove hook to approve the spending of the product's price, for the ERC20 cUSD contract
   //   const { writeAsync: approve } = useContractApprove(
   //     product?.price?.toString() || "0"
@@ -66,12 +62,17 @@ const Product = ({ id, setError, setLoading, clear }: any) => {
       price: Number(rawProduct[5]),
       sold: rawProduct[6].toString(),
     });
+
+
   }, [rawProduct]);
 
   // Call the getFormatProduct function when the rawProduct state changes
   useEffect(() => {
+  
     getFormatProduct();
-  }, [getFormatProduct]);
+  }, [getFormatProduct])
+
+  // console.log(products);
 
   // Define the handlePurchase function which handles the purchase interaction with the smart contract
   //   const handlePurchase = async () => {
@@ -151,47 +152,17 @@ const Product = ({ id, setError, setLoading, clear }: any) => {
           </p>
         </div>
       </div>
-      {/* <div className="mt-2">
-        {quantity === 0 ? (
-          <button
-            onClick={() => increaseCartQuantity(product.id)}
-            className="w-full rounded-md py-2 px-4 text-white bg-violet-900"
-          >
-            {" "}
-            + Add to Cart
-          </button>
-        ) : (
-          <div className="flex flex-col items-center  gap-2">
-            <div className="flex items-center  gap-2">
-              <button
-                onClick={() => decreaseCartQuantity(product.id)}
-                className="rounded-md py-2 px-4 text-white bg-violet-900"
-              >
-                -
-              </button>
-              <div>
-                <span className="text-gray-700 font-bold">{quantity} </span>in
-                cart
-              </div>
-              <button
-                onClick={() => increaseCartQuantity(product.id)}
-                className="rounded-md py-2 px-4 text-white bg-violet-900"
-              >
-                +
-              </button>
-            </div>
-
-            <div className="">
-              <button
-                onClick={() => removeFromCart(product.id)}
-                className="rounded-md mt-2 py-2 px-4 text-white bg-rose-500"
-              >
-                Remove
-              </button>
-            </div>
-          </div>
-        )}
-      </div> */}
+      <div className="mt-2">
+        <button
+          className="w-full rounded-md py-2 px-4 text-white bg-violet-900"
+          onClick={() => {
+            dispatch({type: "ADD_TO_CART", payload: product})
+          }}
+        >
+          {" "}
+          + Add to Cart
+        </button>
+      </div>
     </div>
   );
 };

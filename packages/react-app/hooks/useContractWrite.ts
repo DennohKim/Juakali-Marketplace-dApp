@@ -23,9 +23,7 @@ export const useContractSend = (functionName: string, args: Array<any>) => {
     // The arguments to pass to the smart contract function
     args,
     // The gas limit to use when sending a transaction
-    overrides: {
-      gasLimit,
-    },
+    //overrides: { gasLimit },
     onError: (err) => {
       console.log({ err });
     },

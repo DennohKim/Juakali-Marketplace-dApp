@@ -7,8 +7,8 @@ import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
 import Layout from "../components/Layout";
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
-import { ShoppingCartProvider } from "@/context/ShoppingCartContext";
 import { Toaster } from "react-hot-toast";
+import { ShoppingCartProvider } from "@/context/ShoppingCartContext"
 
 const projectId = "celo-composer-project-id"; // get one at https://cloud.walletconnect.com/app
 
@@ -35,27 +35,27 @@ const wagmiConfig = createConfig({
 
 function App({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider
-        chains={chains}
-        coolMode={true}
-        theme={lightTheme({
-          accentColor: "#4c1d95",
-          accentColorForeground: "white",
-          borderRadius: "medium",
-          fontStack: "system",
-          overlayBlur: "small",
-        })}
-      >
-        <ShoppingCartProvider>
+    <ShoppingCartProvider>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider
+          chains={chains}
+          coolMode={true}
+          theme={lightTheme({
+            accentColor: "#4c1d95",
+            accentColorForeground: "white",
+            borderRadius: "medium",
+            fontStack: "system",
+            overlayBlur: "small",
+          })}
+        >
           <Toaster position="top-center" />
 
           <Layout>
             <Component {...pageProps} />
           </Layout>
-        </ShoppingCartProvider>
-      </RainbowKitProvider>
-    </WagmiConfig>
+        </RainbowKitProvider>
+      </WagmiConfig>
+    </ShoppingCartProvider>
   );
 }
 
