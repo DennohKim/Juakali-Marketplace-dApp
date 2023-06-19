@@ -21,7 +21,7 @@ import { useContractApprove } from '@/hooks/contracts/useApprove';
 
 
 // Define the Product component which takes in the id of the product and some functions to display notifications
-const Product = ({ id, setError, setLoading, clear }: any) => {
+const Product = ({ id, setError, setLoading, clear, searchQuery }: any) => {
   const { dispatch } = useContext(ShoppingCartContext);
 
   // Use the useAccount hook to store the user's address
@@ -53,7 +53,7 @@ const Product = ({ id, setError, setLoading, clear }: any) => {
       location: rawProduct[4],
       price: Number(rawProduct[5]),
       sold: rawProduct[6].toString(),
-	  index: id
+      index: id,
     });
   }, [rawProduct, id]);
 
@@ -112,6 +112,16 @@ const Product = ({ id, setError, setLoading, clear }: any) => {
   // If the product cannot be loaded, return null
   if (!product) return null;
 
+  // hanle search, display if name includes search query
+  if (
+    searchQuery != '' &&
+    !product.product_title
+      .toLocaleLowerCase()
+      .includes(searchQuery.toLocaleLowerCase().trim())
+  ) {
+    return null;
+  }
+
   // Format the price of the product from wei to cUSD otherwise the price will be way too high
   const productPriceFromWei = ethers.utils.formatEther(
     product.price.toString()
@@ -139,12 +149,14 @@ const Product = ({ id, setError, setLoading, clear }: any) => {
             aria-hidden='true'
             className='absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-60'
           />
-          <p className='relative right-10 text-lg font-semibold text-white'>
-            {product.sold} Sold
-          </p>
-          <p className='relative text-lg font-semibold text-white'>
-            {productPriceFromWei} cUSD
-          </p>
+          <div className='absolute inset-x-0 px-4 flex items-center justify-between'>
+            <p className='text-lg font-semibold text-white'>
+              {product.sold} Sold
+            </p>
+            <p className='text-lg font-semibold text-white'>
+              {productPriceFromWei} cUSD
+            </p>
+          </div>
         </div>
       </div>
       <div className='mt-2'>

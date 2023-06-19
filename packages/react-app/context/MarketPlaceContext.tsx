@@ -22,7 +22,7 @@ type MarketPlaceContextType = {
   setError: any;
   setSuccess: any;
   setLoading: any;
- 
+  handleSearch: (query: string) => void;
 };
 
 export const MarketPlaceContext = createContext({} as MarketPlaceContextType);
@@ -34,7 +34,6 @@ export function useMarketPlace() {
 export default function MarketPlaceProvider({
   children,
 }: MarketPlaceProviderProps) {
-
   // Use the useContractCall hook to read how many products are in the marketplace contract
   const { data } = useContractCall('getProductsLength', [], true);
   // Convert the data to a number
@@ -43,12 +42,21 @@ export default function MarketPlaceProvider({
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+
   // Define a function to clear the error, success and loading states
   const clear = () => {
     setError('');
     setSuccess('');
     setLoading('');
   };
+
+  // prop function that get from product filter component to set search query
+  const handleSearch = (query: string) => {
+    // Implement the logic to filter products based on the search query
+    setSearchQuery(query);
+  };
+
   // Define a function to return the products
   const getProducts = useCallback(() => {
     // If there are no products, return null
@@ -65,18 +73,17 @@ export default function MarketPlaceProvider({
           setLoading={setLoading}
           loading={loading}
           clear={clear}
+		  searchQuery={searchQuery}
         />
       );
     }
 
     return juakaliProducts;
-  }, [loading, productLength]);
+  }, [loading, productLength, searchQuery]);
 
   useEffect(() => {
     getProducts();
   }, [getProducts]);
-
-  
 
   return (
     <MarketPlaceContext.Provider
@@ -88,7 +95,8 @@ export default function MarketPlaceProvider({
         setError,
         setSuccess,
         setLoading,
-        clear
+        clear,
+		handleSearch,
       }}
     >
       {children}

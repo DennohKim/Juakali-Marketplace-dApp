@@ -45,7 +45,6 @@ export default function CheckoutModal() {
      index = cart[key].index;
    }
 
-   console.log(index)
 
   for (const [key, value] of Object.entries(cart)) {
     totalPrice = totalPrice + cart[key].price * cart[key].quantity;
