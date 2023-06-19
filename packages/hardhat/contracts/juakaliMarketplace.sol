@@ -25,7 +25,7 @@ interface IERC20Token {
 }
 
 contract JuakaliMarketplace {
-    uint internal productsLength = 0;
+    uint256 internal productsLength = 0;
     address internal cUsdTokenAddress = 0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1;
    
 
@@ -35,8 +35,8 @@ contract JuakaliMarketplace {
         string image_url;
         string category;
         string location;
-        uint price;
-        uint sold;
+        uint256 price;
+        uint256 sold;
     }
     bool private locked = false;
 
@@ -49,24 +49,24 @@ contract JuakaliMarketplace {
 
     uint256 constant MAX_PRICE = 100000000000000000000;
 
-    mapping(uint => Product) internal products;
+    mapping(uint256 => Product) internal products;
 
-    mapping(address => uint) internal productsByUser;
+    mapping(address => uint256) internal productsByUser;
 
-    uint internal maxProductsPerUser = 10;
+    uint256 internal maxProductsPerUser = 10;
 
     address public admin;
 
-    event ProductCreated(address indexed owner, string product_title, string image_url, string category, string location, uint price);
-    event ProductDeleted(uint indexed productId);
-    event ProductSold(uint indexed productId);
+    event ProductCreated(address indexed owner, string product_title, string image_url, string category, string location, uint256 price);
+    event ProductDeleted(uint256 indexed productId);
+    event ProductSold(uint256 indexed productId);
 
 
     constructor(){
       admin = msg.sender;
     }
 
-    function setMaxProductsPerUser(uint _maxProductsPerUser) public {
+    function setMaxProductsPerUser(uint256 _maxProductsPerUser) public {
         require(admin == msg.sender, "Unauthorized caller");
         require(
             _maxProductsPerUser > 0,
@@ -80,7 +80,7 @@ contract JuakaliMarketplace {
         string memory _image_url,
         string memory _category,
         string memory _location,
-        uint _price
+        uint256 _price
     ) public {
         require(bytes(_product_title).length > 0, "Product title cannot be empty");
         require(bytes(_image_url).length > 0, "Image URL cannot be empty");
@@ -93,7 +93,7 @@ contract JuakaliMarketplace {
             "Maximum products per user reached"
         );
 
-        uint _sold = 0;
+        uint256 _sold = 0;
         products[productsLength] = Product(
             payable(msg.sender),
             _product_title,
@@ -122,8 +122,8 @@ contract JuakaliMarketplace {
             string memory,
             string memory,
             string memory,
-            uint,
-            uint
+            uint256,
+            uint256
         )
     {
         return (
@@ -137,20 +137,29 @@ contract JuakaliMarketplace {
         );
     }
 
-    function buyProduct(uint _index, uint _quantity) public payable nonReentrant {
-        require(_index < productsLength, "Invalid product index");
-        require(_quantity > 0, "One product must at least be bought");
-        Product storage product = products[_index];
+
+	// Buys a product from the marketplace
+    function buyProduct(
+        // Index of the product
+        uint256 _index, uint256 _quantity
+    ) public payable nonReentrant(){
+        // Transfers the tokens from the buyer to the seller
         require(
             IERC20Token(cUsdTokenAddress).transferFrom(
+                // Sender's address is the buyer
                 msg.sender,
-                product.owner,
-                product.price * _quantity
+                // Receiver's address is the seller
+                products[_index].owner,
+                // Amount of tokens to transfer is the price of the product
+                products[_index].price * _quantity
             ),
+            // If transfer fails, throw an error message
             "Transfer failed."
         );
-        products[_index].sold += _quantity;
+        // Increases the number of times the product has been sold
+        products[_index].sold+= _quantity;
     }
+
 
     function deleteProduct(uint256 _index) public {
     require(_index < productsLength, "Invalid product index");
@@ -176,8 +185,8 @@ contract JuakaliMarketplace {
       require(_user != address(0));
 
         Product[] memory ownedProducts = new Product[](productsByUser[_user]);
-        uint j = 0;
-        for (uint i = 0; i < productsLength; i++) {
+        uint256 j = 0;
+        for (uint256 i = 0; i < productsLength; i++) {
             if (products[i].owner == _user) {
                 ownedProducts[j] = products[i];
                 j++;
@@ -188,7 +197,7 @@ contract JuakaliMarketplace {
         return ownedProducts;
     }
 
-      function getProductsLength() public view returns (uint) {
+      function getProductsLength() public view returns (uint256) {
         return (productsLength);
     }
 

@@ -1,18 +1,47 @@
-import type { AppProps } from "next/app";
-import { lightTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import celoGroups from "@celo/rainbowkit-celo/lists";
-import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
-import Layout from "../components/Layout";
+// This file is the entry point for the app. It is used to wrap the app with the RainbowKitProvider and WagmiConfig components.
+
+// Import the global style sheet as well as the RainbowKit and react-toastify stylesheets.
+import "react-toastify/dist/ReactToastify.css";
 import "../styles/globals.css";
 import "@rainbow-me/rainbowkit/styles.css";
-import { Toaster } from "react-hot-toast";
-import { ShoppingCartProvider } from "@/context/ShoppingCartContext"
 
-const projectId = "celo-composer-project-id"; // get one at https://cloud.walletconnect.com/app
+import type { AppProps } from "next/app";
 
-const { chains, publicClient } = configureChains(
+// Import the connectorsForWallets function to create a list of wallets to connect to.
+// Import the RainbowKitProvider component to wrap the app with.
+import {
+  connectorsForWallets,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
+
+// Import three different wallets connectors from the RainbowKit package.
+import {
+  metaMaskWallet,
+  omniWallet,
+  walletConnectWallet,
+} from "@rainbow-me/rainbowkit/wallets";
+
+// Import configureChains, createClient, and WagmiConfig from the Wagmi package to configure the Wagmi client.
+import { configureChains, createClient, WagmiConfig } from "wagmi";
+
+// Import the jsonRpcProvider from the Wagmi package to specify the RPC URLs of the chains we want to connect to.
+import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
+
+// Import known recommended CELO wallets
+import { Valora, CeloWallet, CeloDance } from "@celo/rainbowkit-celo/wallets";
+
+// Import CELO chain information
+import { Alfajores, Celo } from "@celo/rainbowkit-celo/chains";
+
+import Layout from "../components/Layout";
+
+// Import the ToastContainer component from react-toastify to display notifications.
+import { ToastContainer } from "react-toastify";
+import MarketPlaceProvider from "@/context/MarketPlaceContext";
+import { ShoppingCartProvider } from "@/context/ShoppingCartContext";
+
+// Configure the information for the chains we want to connect to through RainbowKit.
+const { chains, provider } = configureChains(
   [Alfajores, Celo],
   [
     jsonRpcProvider({
@@ -21,41 +50,43 @@ const { chains, publicClient } = configureChains(
   ]
 );
 
-const connectors = celoGroups({
-  chains,
-  projectId,
-  appName: (typeof document === "object" && document.title) || "Your App Name",
-});
+// Create the list of wallets to connect to.
+const connectors = connectorsForWallets([
+  {
+    groupName: 'Recommended with CELO',
+    wallets: [
+      Valora({ chains }),
+      CeloWallet({ chains }),
+      CeloDance({ chains }),
+      metaMaskWallet({ chains }),
+      omniWallet({ chains }),
+      walletConnectWallet({ chains }),
+    ],
+  },
+]);
 
-const wagmiConfig = createConfig({
+// Create the Wagmi client.
+const wagmiClient = createClient({
   autoConnect: true,
   connectors,
-  publicClient: publicClient,
+  provider,
 });
 
+// Create and export the App component wrapped with the RainbowKitProvider and WagmiConfig.
 function App({ Component, pageProps }: AppProps) {
   return (
-    <ShoppingCartProvider>
-      <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider
-          chains={chains}
-          coolMode={true}
-          theme={lightTheme({
-            accentColor: "#4c1d95",
-            accentColorForeground: "white",
-            borderRadius: "medium",
-            fontStack: "system",
-            overlayBlur: "small",
-          })}
-        >
-          <Toaster position="top-center" />
-
-          <Layout>
-            <Component {...pageProps} />
-          </Layout>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </ShoppingCartProvider>
+    <WagmiConfig client={wagmiClient}>
+      <RainbowKitProvider chains={chains} coolMode={true}>
+        <MarketPlaceProvider>
+          <ShoppingCartProvider>
+            <ToastContainer position={'bottom-center'} />
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </ShoppingCartProvider>
+        </MarketPlaceProvider>
+      </RainbowKitProvider>
+    </WagmiConfig>
   );
 }
 

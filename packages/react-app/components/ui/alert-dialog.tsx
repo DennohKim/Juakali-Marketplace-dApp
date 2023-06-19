@@ -1,3 +1,5 @@
+"use client"
+
 import * as React from "react"
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 
@@ -27,7 +29,7 @@ const AlertDialogOverlay = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <AlertDialogPrimitive.Overlay
     className={cn(
-      "fixed inset-0 z-50 bg-black/40 backdrop-blur-sm transition-opacity animate-in fade-in",
+      "fixed inset-0 z-50 bg-background/80 backdrop-blur-sm transition-opacity animate-in fade-in",
       className
     )}
     {...props}
@@ -126,8 +128,8 @@ const AlertDialogCancel = React.forwardRef<
   <AlertDialogPrimitive.Cancel
     ref={ref}
     className={cn(
-      buttonVariants({ variant: "close" }),
-      "sm:mt-0",
+      buttonVariants({ variant: "outline" }),
+      "mt-2 sm:mt-0",
       className
     )}
     {...props}
