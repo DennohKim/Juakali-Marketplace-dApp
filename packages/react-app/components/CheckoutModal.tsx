@@ -105,11 +105,7 @@ export default function CheckoutModal() {
       console.log({ e });
       setError(e?.reason || e?.message || "Something went wrong. Try again.");
       // Once the purchase is complete, clear the loading state
-    } finally {
-      setLoading(null);
-	//   router.refresh();
-	  
-    }
+    } 
   };
 
   return (

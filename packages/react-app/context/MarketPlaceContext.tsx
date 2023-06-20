@@ -18,6 +18,9 @@ type MarketPlaceContextType = {
   error: string;
   success: string;
   loading: string;
+  setError: (error: string) => void;
+  setSuccess: (success: string) => void;
+  setLoading: (loading: string) => void;
   clear: () => void;
   handleSearch: (query: string) => void;
   handleCategoryChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -98,7 +101,10 @@ export default function MarketPlaceProvider({
         getProducts,
         error,
         success,
-        loading,     
+        loading,  
+		setError,
+		setSuccess,
+		setLoading,   
         clear,
 		handleSearch,
 		handleCategoryChange,
