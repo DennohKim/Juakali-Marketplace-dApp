@@ -14,15 +14,14 @@ type MarketPlaceProviderProps = {
 }
 
 type MarketPlaceContextType = {
-  getProducts: any;
-  error: any;
-  success: any;
-  loading: any;
-  clear: any;
-  setError: any;
-  setSuccess: any;
-  setLoading: any;
+  getProducts: () => React.ReactNode[];
+  error: string;
+  success: string;
+  loading: string;
+  clear: () => void;
   handleSearch: (query: string) => void;
+  handleCategoryChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  selectedItemCategory: string | undefined;
 };
 
 export const MarketPlaceContext = createContext({} as MarketPlaceContextType);
@@ -43,6 +42,13 @@ export default function MarketPlaceProvider({
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+ const [selectedItemCategory, setSelectedItemCategory] = useState<string | undefined>();
+ 
+ function handleCategoryChange(e: React.ChangeEvent<HTMLSelectElement>): void {
+   setSelectedItemCategory(e.target.value);
+ }
+
+
 
   // Define a function to clear the error, success and loading states
   const clear = () => {
@@ -74,12 +80,13 @@ export default function MarketPlaceProvider({
           loading={loading}
           clear={clear}
 		  searchQuery={searchQuery}
+		  selectedItemCategory={selectedItemCategory}
+
         />
       );
     }
-
     return juakaliProducts;
-  }, [loading, productLength, searchQuery]);
+  }, [loading, productLength, searchQuery, selectedItemCategory]);
 
   useEffect(() => {
     getProducts();
@@ -91,12 +98,11 @@ export default function MarketPlaceProvider({
         getProducts,
         error,
         success,
-        loading,
-        setError,
-        setSuccess,
-        setLoading,
+        loading,     
         clear,
 		handleSearch,
+		handleCategoryChange,
+		selectedItemCategory,
       }}
     >
       {children}
