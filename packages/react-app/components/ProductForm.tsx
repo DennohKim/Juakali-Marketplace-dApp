@@ -106,7 +106,7 @@ const ProductForm = () => {
         loading: 'Creating product...',
         success: 'Product created successfully',
         error: 'Something went wrong. Try again.',
-      });
+      } as any);
       // Display an error message if something goes wrong
     } catch (e: any) {
       console.log({ e });
