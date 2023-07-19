@@ -11,7 +11,7 @@ import { useMarketPlace } from '@/context/MarketPlaceContext';
 
 
 // Alerts component
-const Alerts = ({ error, success, loading, clear }) => {
+const Alerts = ({ error, success, loading, clear }: any) => {
   return (
     <div>
       {error && <ErrorAlert message={error} clear={clear} />}
@@ -32,7 +32,7 @@ const ProductList = () => {
 
       {/* Display the products */}
       <div className='grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8'>
-        {getProducts}
+        {getProducts()}
       </div>
     </div>
   );
