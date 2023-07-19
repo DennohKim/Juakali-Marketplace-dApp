@@ -27,5 +27,4 @@ describe('FilterCategory', () => {
     expect(selectElement).toHaveValue(selectedItemCategory);
   });
 
-  // Add more test cases as needed
 });

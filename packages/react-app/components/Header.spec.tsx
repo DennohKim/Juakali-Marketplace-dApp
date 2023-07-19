@@ -65,5 +65,4 @@ describe('Header', () => {
     expect(balanceElement).not.toBeInTheDocument();
   });
 
-  // Add more test cases as needed
 });

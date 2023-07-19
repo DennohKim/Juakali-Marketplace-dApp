@@ -57,5 +57,4 @@ describe('AddProductModal', () => {
     expect(createButton).not.toBeDisabled();
   });
 
-  // Add more test cases as needed
 });

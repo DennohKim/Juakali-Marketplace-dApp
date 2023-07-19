@@ -14,5 +14,4 @@ describe('FilterProduct', () => {
     expect(filterCategoryComponent).toBeInTheDocument();
   });
 
-  // Add more test cases as needed
 });

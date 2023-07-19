@@ -26,5 +26,4 @@ describe('CheckoutModal', () => {
     expect(modal).not.toBeInTheDocument();
   });
 
-  // Add more test cases as needed
 });

@@ -22,5 +22,4 @@ describe('ClientOnly', () => {
     expect(childComponent).not.toBeInTheDocument();
   });
 
-  // Add more test cases as needed
 });
