@@ -6,7 +6,7 @@ describe('Search', () => {
   test('calls handleSearch on input change', () => {
     const handleSearch = jest.fn();
 
-    render(<Search />);
+    render(<Search handleSearch={handleSearch} />);
 
     // Get the input element
     const inputElement = screen.getByRole('searchbox');

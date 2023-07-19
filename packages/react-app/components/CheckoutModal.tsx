@@ -29,15 +29,9 @@ export default function CheckoutModal() {
   let index = 0;
 
   for (const [key, value] of Object.entries(cart)) {
-    itemCount = itemCount + cart[key].quantity;
-  }
-
-  for (const [key, value] of Object.entries(cart)) {
-    index = cart[key].index;
-  }
-
-  for (const [key, value] of Object.entries(cart)) {
-    totalPrice = totalPrice + cart[key].price * cart[key].quantity;
+  itemCount += cart[key].quantity;
+  totalPrice += cart[key].price * cart[key].quantity;
+  index = cart[key].index;
   }
 
   const totalPriceFromWei = ethers.utils.formatEther(totalPrice.toString());
