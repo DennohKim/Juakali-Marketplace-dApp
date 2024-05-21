@@ -1,0 +1,32 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: juakaliMarketPlace
+    network: celo-alfajores
+    source:
+      address: "0x44684845037389CE2a8434ADa3bCFF3c48e05Ae9"
+      abi: juakaliMarketPlace
+      startBlock: 24180710
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ProductCreated
+        - ProductDeleted
+        - ProductSold
+      abis:
+        - name: juakaliMarketPlace
+          file: ./abis/juakaliMarketPlace.json
+      eventHandlers:
+        - event: ProductCreated(indexed address,string,string,string,string,uint256)
+          handler: handleProductCreated
+        - event: ProductDeleted(indexed uint256)
+          handler: handleProductDeleted
+        - event: ProductSold(indexed uint256)
+          handler: handleProductSold
+      file: ./src/juakali-market-place.ts
